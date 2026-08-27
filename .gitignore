@@ -1,0 +1,25 @@
+﻿# Environment & secrets
+.env
+*.pem
+copernicus_credentials
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Java
+target/
+*.class
+
+# Node/Frontend
+node_modules/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store

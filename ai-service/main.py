@@ -1,8 +1,6 @@
 """
 ORCA AI Agent Service (Module 4).
-
 Run with: uvicorn main:app --reload --port 8000
-Called internally by the Spring Boot Backend Core service at POST /ai/agent/run.
 """
 
 from fastapi import FastAPI, HTTPException

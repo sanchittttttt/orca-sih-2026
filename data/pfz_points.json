@@ -1,22 +1,502 @@
 [
   {
-    "latitude": 9.1875,
-    "longitude": 76.3542,
-    "chlorophyll": 2.7098,
-    "chlorophyll_gradient": 2.447991,
-    "sea_surface_temperature": 27.9,
-    "wave_height": 1.32,
-    "pfz_score": 0.7083,
-    "date": "SAMPLE - replace by running fetch_chlorophyll.py + fetch_marine.py + compute_pfz.py"
+    "latitude": 8.0625,
+    "longitude": 76.6875,
+    "chlorophyll": 3.2563,
+    "chlorophyll_gradient": 2.938255,
+    "sea_surface_temperature": 28.5,
+    "wave_height": 1.64,
+    "pfz_score": 0.9231,
+    "date": "2026-08-28"
   },
   {
-    "latitude": 10.2292,
-    "longitude": 80.3125,
-    "chlorophyll": 2.6464,
-    "chlorophyll_gradient": 3.19709,
+    "latitude": 8.2292,
+    "longitude": 76.8125,
+    "chlorophyll": 3.4217,
+    "chlorophyll_gradient": 2.572232,
+    "sea_surface_temperature": 28.5,
+    "wave_height": 1.64,
+    "pfz_score": 0.8999,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 8.0625,
+    "longitude": 76.6458,
+    "chlorophyll": 3.5787,
+    "chlorophyll_gradient": 1.953887,
+    "sea_surface_temperature": 28.5,
+    "wave_height": 1.64,
+    "pfz_score": 0.8411,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 9.8542,
+    "longitude": 76.2292,
+    "chlorophyll": 3.2787,
+    "chlorophyll_gradient": 1.78079,
+    "sea_surface_temperature": 27.6,
+    "wave_height": 1.3,
+    "pfz_score": 0.7692,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 8.3542,
+    "longitude": 76.7708,
+    "chlorophyll": 3.5321,
+    "chlorophyll_gradient": 1.47797,
+    "sea_surface_temperature": 28.5,
+    "wave_height": 1.64,
+    "pfz_score": 0.7688,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 8.2292,
+    "longitude": 76.3958,
+    "chlorophyll": 3.3404,
+    "chlorophyll_gradient": 1.640521,
+    "sea_surface_temperature": 28.5,
+    "wave_height": 1.64,
+    "pfz_score": 0.76,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 9.7292,
+    "longitude": 76.2292,
+    "chlorophyll": 3.0644,
+    "chlorophyll_gradient": 1.833421,
+    "sea_surface_temperature": 27.6,
+    "wave_height": 1.3,
+    "pfz_score": 0.7418,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 8.0208,
+    "longitude": 76.6875,
+    "chlorophyll": 2.7091,
+    "chlorophyll_gradient": 2.186153,
+    "sea_surface_temperature": 28.5,
+    "wave_height": 1.64,
+    "pfz_score": 0.7326,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 8.7292,
+    "longitude": 76.3958,
+    "chlorophyll": 2.8121,
+    "chlorophyll_gradient": 1.948973,
+    "sea_surface_temperature": 28.5,
+    "wave_height": 1.64,
+    "pfz_score": 0.7169,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 13.6042,
+    "longitude": 80.3542,
+    "chlorophyll": 3.6139,
+    "chlorophyll_gradient": 0.820216,
     "sea_surface_temperature": 29.6,
-    "wave_height": 0.64,
-    "pfz_score": 0.7294,
-    "date": "SAMPLE - replace by running fetch_chlorophyll.py + fetch_marine.py + compute_pfz.py"
+    "wave_height": 0.58,
+    "pfz_score": 0.6924,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 15.4375,
+    "longitude": 82.6042,
+    "chlorophyll": 3.5599,
+    "chlorophyll_gradient": 0.783536,
+    "sea_surface_temperature": 29.1,
+    "wave_height": 2.1,
+    "pfz_score": 0.6787,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 8.9375,
+    "longitude": 78.3542,
+    "chlorophyll": 3.6822,
+    "chlorophyll_gradient": 0.603233,
+    "sea_surface_temperature": 28.9,
+    "wave_height": 1.64,
+    "pfz_score": 0.6739,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 8.6875,
+    "longitude": 76.4792,
+    "chlorophyll": 2.9875,
+    "chlorophyll_gradient": 1.38921,
+    "sea_surface_temperature": 28.5,
+    "wave_height": 1.64,
+    "pfz_score": 0.6689,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 10.1042,
+    "longitude": 75.2292,
+    "chlorophyll": 3.591,
+    "chlorophyll_gradient": 0.673573,
+    "sea_surface_temperature": 27.6,
+    "wave_height": 1.3,
+    "pfz_score": 0.6688,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 14.1875,
+    "longitude": 80.2708,
+    "chlorophyll": 3.6146,
+    "chlorophyll_gradient": 0.614235,
+    "sea_surface_temperature": 29.6,
+    "wave_height": 0.58,
+    "pfz_score": 0.6645,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 15.1875,
+    "longitude": 80.1458,
+    "chlorophyll": 3.5698,
+    "chlorophyll_gradient": 0.658862,
+    "sea_surface_temperature": 29.6,
+    "wave_height": 0.58,
+    "pfz_score": 0.6633,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 14.3958,
+    "longitude": 74.0625,
+    "chlorophyll": 3.6213,
+    "chlorophyll_gradient": 0.533957,
+    "sea_surface_temperature": 28.6,
+    "wave_height": 2.02,
+    "pfz_score": 0.6546,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 8.6042,
+    "longitude": 78.3958,
+    "chlorophyll": 3.4926,
+    "chlorophyll_gradient": 0.683137,
+    "sea_surface_temperature": 28.9,
+    "wave_height": 1.64,
+    "pfz_score": 0.6542,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 8.1042,
+    "longitude": 76.6042,
+    "chlorophyll": 2.949,
+    "chlorophyll_gradient": 1.32545,
+    "sea_surface_temperature": 28.5,
+    "wave_height": 1.64,
+    "pfz_score": 0.654,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 9.4375,
+    "longitude": 75.8125,
+    "chlorophyll": 3.024,
+    "chlorophyll_gradient": 1.229712,
+    "sea_surface_temperature": 27.6,
+    "wave_height": 1.3,
+    "pfz_score": 0.6531,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 15.2708,
+    "longitude": 80.3125,
+    "chlorophyll": 3.7333,
+    "chlorophyll_gradient": 0.359811,
+    "sea_surface_temperature": 29.6,
+    "wave_height": 0.58,
+    "pfz_score": 0.649,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 14.2292,
+    "longitude": 74.0625,
+    "chlorophyll": 3.6156,
+    "chlorophyll_gradient": 0.462995,
+    "sea_surface_temperature": 28.6,
+    "wave_height": 2.02,
+    "pfz_score": 0.6441,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 8.9792,
+    "longitude": 76.4375,
+    "chlorophyll": 3.2392,
+    "chlorophyll_gradient": 0.901623,
+    "sea_surface_temperature": 28.5,
+    "wave_height": 1.64,
+    "pfz_score": 0.6431,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 9.8125,
+    "longitude": 75.8542,
+    "chlorophyll": 3.4332,
+    "chlorophyll_gradient": 0.666794,
+    "sea_surface_temperature": 27.6,
+    "wave_height": 1.3,
+    "pfz_score": 0.6424,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 9.3125,
+    "longitude": 75.6458,
+    "chlorophyll": 3.5645,
+    "chlorophyll_gradient": 0.503375,
+    "sea_surface_temperature": 27.6,
+    "wave_height": 1.3,
+    "pfz_score": 0.6413,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 9.8542,
+    "longitude": 75.0625,
+    "chlorophyll": 3.6676,
+    "chlorophyll_gradient": 0.367403,
+    "sea_surface_temperature": 27.6,
+    "wave_height": 1.3,
+    "pfz_score": 0.6394,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 10.3125,
+    "longitude": 76.0625,
+    "chlorophyll": 3.4434,
+    "chlorophyll_gradient": 0.63183,
+    "sea_surface_temperature": 27.6,
+    "wave_height": 1.3,
+    "pfz_score": 0.6393,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 16.8542,
+    "longitude": 82.6458,
+    "chlorophyll": 3.7025,
+    "chlorophyll_gradient": 0.318349,
+    "sea_surface_temperature": 29.1,
+    "wave_height": 2.1,
+    "pfz_score": 0.6384,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 8.8958,
+    "longitude": 75.5625,
+    "chlorophyll": 3.7191,
+    "chlorophyll_gradient": 0.291926,
+    "sea_surface_temperature": 28.5,
+    "wave_height": 1.64,
+    "pfz_score": 0.6374,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 15.6042,
+    "longitude": 80.3958,
+    "chlorophyll": 3.7289,
+    "chlorophyll_gradient": 0.265326,
+    "sea_surface_temperature": 29.1,
+    "wave_height": 2.1,
+    "pfz_score": 0.6354,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 9.1458,
+    "longitude": 75.6042,
+    "chlorophyll": 3.3292,
+    "chlorophyll_gradient": 0.73716,
+    "sea_surface_temperature": 27.6,
+    "wave_height": 1.3,
+    "pfz_score": 0.6352,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 9.8125,
+    "longitude": 75.8125,
+    "chlorophyll": 3.3597,
+    "chlorophyll_gradient": 0.697829,
+    "sea_surface_temperature": 27.6,
+    "wave_height": 1.3,
+    "pfz_score": 0.6348,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 8.7708,
+    "longitude": 78.2292,
+    "chlorophyll": 3.4245,
+    "chlorophyll_gradient": 0.620026,
+    "sea_surface_temperature": 28.9,
+    "wave_height": 1.64,
+    "pfz_score": 0.6346,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 9.1875,
+    "longitude": 75.6042,
+    "chlorophyll": 3.3828,
+    "chlorophyll_gradient": 0.668959,
+    "sea_surface_temperature": 27.6,
+    "wave_height": 1.3,
+    "pfz_score": 0.6346,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 10.7292,
+    "longitude": 79.9375,
+    "chlorophyll": 3.5489,
+    "chlorophyll_gradient": 0.460022,
+    "sea_surface_temperature": 29.8,
+    "wave_height": 0.52,
+    "pfz_score": 0.6329,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 8.6458,
+    "longitude": 75.8958,
+    "chlorophyll": 3.7178,
+    "chlorophyll_gradient": 0.254348,
+    "sea_surface_temperature": 28.5,
+    "wave_height": 1.64,
+    "pfz_score": 0.6321,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 9.8125,
+    "longitude": 75.3125,
+    "chlorophyll": 3.5936,
+    "chlorophyll_gradient": 0.400699,
+    "sea_surface_temperature": 27.6,
+    "wave_height": 1.3,
+    "pfz_score": 0.632,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 9.3542,
+    "longitude": 80.0208,
+    "chlorophyll": 3.6463,
+    "chlorophyll_gradient": 0.338234,
+    "sea_surface_temperature": 29.8,
+    "wave_height": 0.52,
+    "pfz_score": 0.632,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 9.9375,
+    "longitude": 75.5208,
+    "chlorophyll": 3.644,
+    "chlorophyll_gradient": 0.3403,
+    "sea_surface_temperature": 27.6,
+    "wave_height": 1.3,
+    "pfz_score": 0.6319,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 14.3542,
+    "longitude": 73.9792,
+    "chlorophyll": 3.6474,
+    "chlorophyll_gradient": 0.328398,
+    "sea_surface_temperature": 28.6,
+    "wave_height": 2.02,
+    "pfz_score": 0.6309,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 9.4375,
+    "longitude": 76.2292,
+    "chlorophyll": 2.4421,
+    "chlorophyll_gradient": 1.746239,
+    "sea_surface_temperature": 27.6,
+    "wave_height": 1.3,
+    "pfz_score": 0.6296,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 15.8125,
+    "longitude": 80.6458,
+    "chlorophyll": 3.1801,
+    "chlorophyll_gradient": 0.86227,
+    "sea_surface_temperature": 29.1,
+    "wave_height": 2.1,
+    "pfz_score": 0.6282,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 9.8958,
+    "longitude": 75.0208,
+    "chlorophyll": 3.6435,
+    "chlorophyll_gradient": 0.31275,
+    "sea_surface_temperature": 27.6,
+    "wave_height": 1.3,
+    "pfz_score": 0.6281,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 9.4792,
+    "longitude": 75.7292,
+    "chlorophyll": 3.6793,
+    "chlorophyll_gradient": 0.268866,
+    "sea_surface_temperature": 27.6,
+    "wave_height": 1.3,
+    "pfz_score": 0.6279,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 9.1042,
+    "longitude": 78.6042,
+    "chlorophyll": 3.6191,
+    "chlorophyll_gradient": 0.339977,
+    "sea_surface_temperature": 29.8,
+    "wave_height": 0.52,
+    "pfz_score": 0.6279,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 8.5208,
+    "longitude": 76.5625,
+    "chlorophyll": 2.2686,
+    "chlorophyll_gradient": 1.934303,
+    "sea_surface_temperature": 28.5,
+    "wave_height": 1.64,
+    "pfz_score": 0.6273,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 14.2292,
+    "longitude": 80.3125,
+    "chlorophyll": 3.7257,
+    "chlorophyll_gradient": 0.204823,
+    "sea_surface_temperature": 29.6,
+    "wave_height": 0.58,
+    "pfz_score": 0.6266,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 9.0625,
+    "longitude": 80.9792,
+    "chlorophyll": 3.5674,
+    "chlorophyll_gradient": 0.385835,
+    "sea_surface_temperature": 29.8,
+    "wave_height": 0.52,
+    "pfz_score": 0.6258,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 9.3125,
+    "longitude": 74.7292,
+    "chlorophyll": 3.6998,
+    "chlorophyll_gradient": 0.227757,
+    "sea_surface_temperature": 27.6,
+    "wave_height": 1.3,
+    "pfz_score": 0.6256,
+    "date": "2026-08-28"
+  },
+  {
+    "latitude": 12.2292,
+    "longitude": 73.6042,
+    "chlorophyll": 3.6691,
+    "chlorophyll_gradient": 0.263,
+    "sea_surface_temperature": 28.8,
+    "wave_height": 1.62,
+    "pfz_score": 0.6254,
+    "date": "2026-08-28"
   }
 ]

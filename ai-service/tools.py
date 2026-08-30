@@ -1,15 +1,11 @@
 """
-Tool functions the agents call to retrieve REAL data. No LLM involvement here —
-this file is the boundary between "the LLM reasons about what's needed" and
+Tool functions the agents call to retrieve REAL data. No LLM involvement here
+— this file is the boundary between "the LLM reasons about what's needed" and
 "real numbers come from somewhere verifiable."
 
-Weather, marine, and cyclone data are called LIVE, per-query — Open-Meteo and
-GDACS are both fast/keyless enough for this. Only PFZ is read from a
-precomputed file, because Copernicus (its real input) is too slow to call
-live. This file points DATA_DIR at the top-level data/ folder (Module 1) —
-there is only ONE copy of pfz_points.json / lightning_alerts.json in the whole
-repo, so re-running compute_pfz.py in data/ is immediately picked up here with
-no copying required.
+Weather, marine, and cyclone data are called LIVE, per-query. Only PFZ and
+lightning are read from files in the shared ../data/ folder (Module 1) —
+there is only ONE copy of these files in the whole project, no duplication.
 """
 
 import json
@@ -18,7 +14,6 @@ from datetime import datetime, timedelta
 
 import requests
 
-# Shared with Module 1 — do not duplicate this folder inside ai-service/
 DATA_DIR = os.path.join(os.path.dirname(__file__), "..", "data")
 
 
@@ -48,12 +43,6 @@ def fetch_marine(lat: float, lon: float) -> dict:
 
 
 def get_nearest_pfz(lat: float, lon: float, top_n: int = 3) -> list[dict]:
-    """
-    Reads Module 1's precomputed pfz_points.json directly from the shared
-    data/ folder — real INCOIS-method computation over real satellite data.
-    Re-run data/compute_pfz.py whenever you want fresh zones; no copying
-    needed, this always reads the current file.
-    """
     path = os.path.join(DATA_DIR, "pfz_points.json")
     if not os.path.exists(path):
         return []
@@ -67,11 +56,6 @@ def get_nearest_pfz(lat: float, lon: float, top_n: int = 3) -> list[dict]:
 
 
 def get_cyclone_alerts() -> list[dict]:
-    """
-    Called LIVE, same reasoning as weather — GDACS is fast and keyless, no
-    need to cache. Filters to a bounding box roughly covering India and
-    surrounding seas (0-30N, 60-100E).
-    """
     url = "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH"
     params = {
         "eventlist": "TC",
@@ -105,11 +89,6 @@ def get_cyclone_alerts() -> list[dict]:
 
 
 def get_lightning_alerts() -> list[dict]:
-    """
-    Fully simulated (no free real-time source exists for India). Reads from
-    the shared data/ folder, same file Module 1's generate_lightning_mock.py
-    produces.
-    """
     path = os.path.join(DATA_DIR, "lightning_alerts.json")
     if not os.path.exists(path):
         return []
@@ -125,13 +104,10 @@ def compute_risk_score(
     cyclone_level: str = "green",
 ) -> dict:
     """
-    TEMPORARY local copy of the fixed risk formula. Owned long-term by Module 3
-    (Spring Boot Risk Engine + PostGIS) — once that service exists, replace
-    calls to this function with a REST call to its /internal/risk/score
-    endpoint instead. Kept mathematically identical to the playbook's formula.
-
-    score = wind*0.25 + wave*0.25 + rain*0.15 + lightning*0.15 + cyclone*0.20
-    0-30 LOW, 31-60 MODERATE, 61-80 HIGH, 81-100 EXTREME
+    TEMPORARY local copy of the fixed risk formula, owned long-term by Module 3
+    (Spring Boot Risk Engine + PostGIS). Kept mathematically identical to the
+    playbook's formula so results stay consistent once that service replaces
+    this call.
     """
     wind_score = min(wind_kmh / 60 * 100, 100)
     wave_score = min(wave_height_m / 5 * 100, 100)

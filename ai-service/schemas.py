@@ -1,10 +1,9 @@
 """
 Shared schemas for ORCA's AI Agent Service.
 
-The UIResponse shape below is a hard contract with the frontend (M5). The list of
-allowed component `type` values must stay in sync with the frontend's component
-registry (components.js) — do not add/remove types here without telling the
-frontend developer.
+UIResponse is a hard contract with the frontend (M5). The list of allowed
+component `type` values must stay in sync with the frontend's component
+registry — do not add/remove types here without telling the frontend dev.
 """
 
 from typing import Any, Literal, Optional

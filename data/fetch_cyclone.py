@@ -1,3 +1,11 @@
+"""
+Reference/verification script — confirms GDACS works and shows the response
+shape. In production, ai-service/tools.py calls GDACS LIVE, per-query,
+directly (same reasoning as weather) — it does not read this script's output
+file. Kept here so anyone can manually spot-check current cyclone activity
+without spinning up the full AI service.
+"""
+
 import requests
 import json
 from datetime import datetime, timedelta
@@ -12,9 +20,10 @@ params = {
 
 response = requests.get(url, params=params)
 data = response.json()
+
 print(f"Total global TC events in range: {len(data.get('features', []))}")
 
-# India-ish bounding box: filter events whose coordinates fall roughly here
+# India-ish bounding box
 LAT_MIN, LAT_MAX = 0, 30
 LON_MIN, LON_MAX = 60, 100
 

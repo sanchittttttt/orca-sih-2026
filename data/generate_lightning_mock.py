@@ -1,7 +1,13 @@
+"""
+Fully simulated — no free real-time lightning-alert API for India was found.
+This is the ONLY dataset in ORCA that is entirely fabricated rather than
+computed from real inputs. Labeled as such in its own output so downstream
+consumers never confuse it with real data.
+"""
+
 import json
 import random
 
-# Rough regional breakdown of the Indian coastline
 regions = [
     "Gujarat Coast", "Konkan Coast", "Goa Coast", "Karnataka Coast",
     "Kerala Coast", "Tamil Nadu Coast", "Andhra Coast", "Odisha Coast",

@@ -1,0 +1,12 @@
+[
+  {
+    "region": "Kerala Coast",
+    "lightning_alert": "none",
+    "source": "SIMULATED - SAMPLE, replace by running generate_lightning_mock.py"
+  },
+  {
+    "region": "Konkan Coast",
+    "lightning_alert": "moderate",
+    "source": "SIMULATED - SAMPLE, replace by running generate_lightning_mock.py"
+  }
+]

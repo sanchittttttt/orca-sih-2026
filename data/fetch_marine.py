@@ -1,11 +1,22 @@
+"""
+Grid-fetches SST + wave data across the Indian coast bounding box
+(8N-22N, 68E-90E), spaced roughly every 2 degrees.
+
+Two uses: (1) a batch input to compute_pfz.py, which needs SST at many points
+to pair against the dense chlorophyll grid, and (2) single-point live calls
+are made directly by ai-service/tools.py in production — this script's grid
+mode is for the PFZ batch job only.
+
+Land points correctly return null/error and are skipped — this is expected,
+not a bug.
+"""
+
 import requests
 import json
 import time
 
 url = "https://marine-api.open-meteo.com/v1/marine"
 
-# A grid of points across the Indian coast bounding box
-# (8N-22N, 68E-90E), spaced roughly every 2 degrees
 latitudes = [8, 10, 12, 14, 16, 18, 20, 22]
 longitudes = [68, 72, 76, 80, 84, 88]
 
@@ -30,7 +41,7 @@ for lat in latitudes:
                 "wave_period": current.get("wave_period"),
                 "sea_surface_temperature": current.get("sea_surface_temperature"),
             })
-        time.sleep(0.2)  # be polite to the free API, avoid hammering it
+        time.sleep(0.2)  # be polite to the free API
 
 with open("marine_snapshot.json", "w") as f:
     json.dump(all_points, f, indent=2)

@@ -1,4 +1,4 @@
-﻿# Environment & secrets
+# Environment & secrets
 .env
 *.pem
 copernicus_credentials
@@ -23,3 +23,9 @@ node_modules/
 
 # OS
 .DS_Store
+
+# Generated data snapshots (regenerate via the scripts in data/, don't commit outputs)
+data/*.nc
+data/*.csv
+data/weather_snapshot.json
+data/marine_snapshot.json

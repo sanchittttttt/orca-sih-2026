@@ -1,0 +1,22 @@
+[
+  {
+    "latitude": 9.1875,
+    "longitude": 76.3542,
+    "chlorophyll": 2.7098,
+    "chlorophyll_gradient": 2.447991,
+    "sea_surface_temperature": 27.9,
+    "wave_height": 1.32,
+    "pfz_score": 0.7083,
+    "date": "SAMPLE - replace by running fetch_chlorophyll.py + fetch_marine.py + compute_pfz.py"
+  },
+  {
+    "latitude": 10.2292,
+    "longitude": 80.3125,
+    "chlorophyll": 2.6464,
+    "chlorophyll_gradient": 3.19709,
+    "sea_surface_temperature": 29.6,
+    "wave_height": 0.64,
+    "pfz_score": 0.7294,
+    "date": "SAMPLE - replace by running fetch_chlorophyll.py + fetch_marine.py + compute_pfz.py"
+  }
+]

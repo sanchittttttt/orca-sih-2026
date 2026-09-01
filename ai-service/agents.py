@@ -73,30 +73,55 @@ def explain_evidence(evidence: dict) -> str:
 
 
 def build_ui(evidence: dict, explanation: str) -> dict:
-    """
-    Agent 4: select which fixed UI components apply and populate them with
-    real values from the evidence. Never invents component types outside the
-    fixed registry (a hard contract with the frontend).
-    """
     system = (
         "You select which UI components to show based on the evidence given, and "
         "populate them using only the real values in that evidence - never invent "
-        "numbers. You may ONLY use these component types, exactly as spelled: "
-        "risk-card, weather-card, ocean-card, pfz-card, marine-map, alert-card, "
-        "recommendation-card, evidence-panel. "
+        "numbers. You may ONLY use these component types, exactly as spelled, and each "
+        "one's data object MUST use exactly these field names (omit a component "
+        "entirely if you don't have its data, but never rename or restructure fields):\n"
+        "- risk-card: {\"score\": number, \"level\": \"LOW\"|\"MODERATE\"|\"HIGH\"|\"EXTREME\"}\n"
+        "- weather-card: {\"temperature_c\": number, \"windspeed_kmh\": number, "
+        "\"winddirection_deg\": number, \"precipitation_probability\": number}\n"
+        "- ocean-card: {\"wave_height_m\": number, \"wave_direction_deg\": number, "
+        "\"wave_period_s\": number, \"sea_surface_temperature_c\": number}\n"
+        "- pfz-card: {\"zones\": [{\"latitude\": number, \"longitude\": number, "
+        "\"chlorophyll\": number, \"pfz_score\": number}]}\n"
+        "- alert-card: {\"cyclone_alerts\": [...], \"lightning_alerts\": [...]} "
+        "(pass the arrays through exactly as given in the evidence)\n"
+        "- marine-map: {\"markers\": [{\"latitude\": number, \"longitude\": number, "
+        "\"label\": string}]}\n"
+        "- recommendation-card: {\"text\": string}\n"
+        "- evidence-panel: for this ONE component type only, copy the ENTIRE evidence "
+        "object given to you into the data field, with all its real keys and values - "
+        "do NOT leave data empty, do NOT summarize it, copy it in full.\n"
+        "Write a specific, informative title describing what was assessed - never use "
+        "the generic word 'Assessment' alone.\n"
         "Respond ONLY with JSON in exactly this shape, no other text, no markdown, "
         "no code fences: "
         '{"title": "...", "components": [{"type": "...", "data": {...}}]}'
     )
     user = json.dumps({"evidence": evidence, "explanation": explanation})
-    raw = call_llm(system, user, json_mode=True)
-    try:
-        return json.loads(raw)
-    except json.JSONDecodeError:
-        return {
-            "title": "Assessment",
-            "components": [
-                {"type": "recommendation-card", "data": {"text": explanation}},
-                {"type": "evidence-panel", "data": evidence},
-            ],
-        }
+
+    for attempt in range(2):  # try twice - a retry often lands on a different free model
+        raw = call_llm(system, user, json_mode=True)
+        print(f"[DEBUG] build_ui attempt {attempt + 1} raw response: {raw[:800]}")
+        try:
+            parsed = json.loads(raw)
+            # Extra safety: catch the case where the model still returns an
+            # empty evidence-panel despite the instruction, and patch it
+            # ourselves rather than trusting the model got it right.
+            for component in parsed.get("components", []):
+                if component.get("type") == "evidence-panel" and not component.get("data"):
+                    component["data"] = evidence
+            return parsed
+        except json.JSONDecodeError as e:
+            print(f"[DEBUG] build_ui attempt {attempt + 1} JSON parse failed: {e}")
+            continue
+
+    return {
+        "title": "Assessment",
+        "components": [
+            {"type": "recommendation-card", "data": {"text": explanation}},
+            {"type": "evidence-panel", "data": evidence},
+        ],
+    }

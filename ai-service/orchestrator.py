@@ -29,7 +29,7 @@ def gather_data(plan: dict, lat: float, lon: float) -> dict:
 
     if plan.get("alerts"):
         evidence["cyclone_alerts"] = tools.get_cyclone_alerts()
-        evidence["lightning_alerts"] = tools.get_lightning_alerts()
+        evidence["lightning_alerts"] = tools.get_lightning_alerts(lat, lon)
 
     if "weather" in evidence and "ocean" in evidence:
         try:
@@ -43,27 +43,16 @@ def gather_data(plan: dict, lat: float, lon: float) -> dict:
     return evidence
 
 
-import time
-
-def run_agent(query: str, lat: float, lon: float) -> dict:
-    t0 = time.time()
-    intent = classify_intent(query)
-    print(f"[TIMING] classify_intent: {time.time()-t0:.1f}s")
-
-    t1 = time.time()
+def run_agent(query: str, lat: float, lon: float, history: list[dict] | None = None) -> dict:
+    intent = classify_intent(query, history=history)
+    print(f"[DEBUG] classified intent: {intent}")  # add this
     plan = decide_what_data_is_needed(intent)
+    print(f"[DEBUG] data plan: {plan}")  # add this
     evidence = gather_data(plan, lat, lon)
-    print(f"[TIMING] gather_data (weather+marine+cyclone): {time.time()-t1:.1f}s")
-
-    t2 = time.time()
-    explanation = explain_evidence(evidence)
-    print(f"[TIMING] explain_evidence: {time.time()-t2:.1f}s")
-
-    t3 = time.time()
+    print(f"[DEBUG] evidence gathered: {evidence}")  # already suggested
+    explanation = explain_evidence(evidence, history=history)
     ui_json = build_ui(evidence, explanation)
-    print(f"[TIMING] build_ui: {time.time()-t3:.1f}s")
-
-    # ... rest stays the same
+    # ... rest unchanged
 
     try:
         validated = UIResponse(**ui_json)

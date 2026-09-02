@@ -88,12 +88,38 @@ def get_cyclone_alerts() -> list[dict]:
     return alerts
 
 
-def get_lightning_alerts() -> list[dict]:
+# In tools.py
+
+_REGION_COORDS = {
+    "Gujarat Coast": (21.5, 70.0),
+    "Konkan Coast": (17.5, 73.2),
+    "Goa Coast": (15.3, 73.9),
+    "Karnataka Coast": (13.5, 74.7),
+    "Kerala Coast": (9.9, 76.3),
+    "Tamil Nadu Coast": (11.5, 79.8),
+    "Andhra Coast": (16.5, 81.5),
+    "Odisha Coast": (19.8, 85.8),
+    "West Bengal Coast": (21.6, 88.0),
+    "Andaman & Nicobar": (11.7, 92.7),
+}
+
+def get_lightning_alerts(lat: float = None, lon: float = None, top_n: int = 2) -> list[dict]:
     path = os.path.join(DATA_DIR, "lightning_alerts.json")
     if not os.path.exists(path):
         return []
     with open(path) as f:
-        return json.load(f)
+        alerts = json.load(f)
+
+    if lat is None or lon is None:
+        return alerts  # fallback: old behavior if no location given
+
+    def dist(a):
+        coords = _REGION_COORDS.get(a["region"])
+        if not coords:
+            return float("inf")
+        return ((coords[0] - lat) ** 2 + (coords[1] - lon) ** 2) ** 0.5
+
+    return sorted(alerts, key=dist)[:top_n]
 
 
 def compute_risk_score(

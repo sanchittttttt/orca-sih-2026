@@ -12,52 +12,112 @@ import json
 from llm_client import call_llm
 
 
-def classify_intent(query: str) -> dict:
-    """Agent 1: understand what the user is actually asking."""
+def _format_history(history: list[dict] | None, max_turns: int = 6) -> str:
+    """Turns the last few messages into plain text for prompt context."""
+    if not history:
+        return ""
+    recent = history[-max_turns:]
+    lines = [f"{h['role']}: {h['content']}" for h in recent]
+    return "\n".join(lines)
+
+
+def classify_intent(query: str, history: list[dict] | None = None) -> dict:
     system = (
         "You classify a fisherman's question into exactly one intent category and "
-        "extract any time reference mentioned. Respond ONLY with JSON, no other text, "
-        "no markdown formatting, no code fences: "
-        '{"intent": "fishing_safety" | "pfz_lookup" | "route_planning" | "general_info", '
-        '"time_reference": "today" | "tomorrow" | "this_week" | "unspecified"}'
+        "extract any time reference mentioned. You may be given prior conversation "
+        "history for context - use it to resolve vague follow-up questions like "
+        "'what about tomorrow' or 'the day after' by inferring they continue the same "
+        "topic as the most recent relevant prior message. Always classify based on the "
+        "CURRENT message's ultimate intent, using history only to fill in what's implied "
+        "but not restated. Respond ONLY with JSON, no other text, no markdown formatting, "
+        "no code fences: "
+        '{"intent": "fishing_safety" | "pfz_lookup" | "route_planning" | "hazard_alert" | "general_info", '
+        '"time_reference": "today" | "tomorrow" | "this_week" | "unspecified"}\n'
+        "Use hazard_alert specifically for questions about cyclones, storms, lightning, "
+        "or active warnings/alerts - NOT general_info - even if fishing isn't mentioned."
     )
-    raw = call_llm(system, query, json_mode=True)
+
+    history_text = _format_history(history)
+    user_prompt = (
+        f"Conversation history:\n{history_text}\n\nCurrent message: {query}"
+        if history_text
+        else query
+    )
+
+    raw = call_llm(system, user_prompt, json_mode=True)
     try:
-        return json.loads(raw)
+        result = json.loads(raw)
     except json.JSONDecodeError:
-        return {"intent": "general_info", "time_reference": "unspecified"}
+        result = {"intent": "general_info", "time_reference": "unspecified"}
+
+    query_lower = query.lower()
+
+    pfz_keywords = [
+        "pfz", "productive fishing zone", "fishing zone", "fishing zones",
+        "good fishing spot", "good fishing spots", "fish zone", "fish zones",
+        "nearby fishing", "nearest fishing", "fishing near me", "fishing zones near me",
+        "where are the fish", "where are the fishing zones", "productive zone"
+    ]
+    weather_keywords = [
+        "weather", "how is the weather", "what is the weather", "weather conditions",
+        "wind", "rain", "clouds", "forecast", "temperature", "humidity", "sea state"
+    ]
+    hazard_keywords = ["cyclone", "storm", "lightning", "alert", "warning", "hazard"]
+
+    if any(keyword in query_lower for keyword in pfz_keywords):
+        result["intent"] = "pfz_lookup"
+        return result
+
+    if any(keyword in query_lower for keyword in weather_keywords):
+        result["intent"] = "fishing_safety"
+        return result
+
+    if result.get("intent") == "general_info" and any(k in query_lower for k in hazard_keywords):
+        result["intent"] = "hazard_alert"
+
+    return result
 
 
 def decide_what_data_is_needed(intent: dict) -> dict:
-    """
-    Agent 2 (planner): decide which data sources this query needs.
-
-    Deliberately plain logic, not an LLM call — the mapping from intent to
-    needed sources is small and fixed enough that reasoning here would be
-    over-engineering. The agentic part is dynamically deciding which sources
-    apply to THIS query, not the mechanism used to decide.
-    """
     mapping = {
         "fishing_safety": {"weather": True, "ocean": True, "pfz": False, "alerts": True},
         "pfz_lookup": {"weather": False, "ocean": True, "pfz": True, "alerts": False},
         "route_planning": {"weather": True, "ocean": True, "pfz": False, "alerts": True},
+        "hazard_alert": {"weather": False, "ocean": False, "pfz": False, "alerts": True},
         "general_info": {"weather": False, "ocean": False, "pfz": False, "alerts": False},
     }
     return mapping.get(intent.get("intent"), mapping["general_info"])
 
 
-def explain_evidence(evidence: dict) -> str:
+def explain_evidence(evidence: dict, history: list[dict] | None = None) -> str:
+    """
+    Agent 3: turn retrieved evidence into plain, calibrated language.
+    Never states an absolute safe/unsafe judgment, never invents numbers.
+
+    History is passed through here too so the explanation can read naturally
+    as a continuation ("compared to yesterday...") rather than repeating
+    itself as if this were the first message — optional context, not required
+    for correctness.
+    """
     system = (
         "You explain marine safety data to a fisherman in plain, simple language. "
-        "STRICT RULE: you are FORBIDDEN from using the words 'safe', 'unsafe', "
-        "'safety', or 'dangerous' anywhere in your response. Instead, always describe "
-        "the assessed risk LEVEL (LOW/MODERATE/HIGH/EXTREME) and the specific evidence "
-        "behind it - for example say 'conditions are assessed as LOW RISK based on "
-        "current wind and wave data' instead of saying anything is safe or unsafe. "
-        "NEVER invent numbers - only reference values present in the evidence given. "
-        "Keep it to 2-4 short sentences. Respond with plain text only."
+        "You may be given prior conversation history for tone/continuity context only - "
+        "the evidence given to you is always about the CURRENT question, not the past one. "
+        "Rules you must follow: "
+        "1) NEVER say a trip is definitely safe or unsafe - only describe the assessed "
+        "risk level and the evidence behind it. "
+        "2) NEVER invent numbers - only reference values present in the evidence given. "
+        "3) Keep it to 2-4 short sentences. "
+        "4) Respond with plain text only, no JSON, no markdown."
     )
-    result = call_llm(system, json.dumps(evidence)).strip()
+    history_text = _format_history(history, max_turns=2)
+    user_prompt = (
+        f"Recent conversation for context:\n{history_text}\n\nCurrent evidence:\n{json.dumps(evidence)}"
+        if history_text
+        else json.dumps(evidence)
+    )
+
+    result = call_llm(system, user_prompt).strip()
 
     # Backstop: if the model ignores the instruction anyway, catch it here
     forbidden = ["unsafe", "safe", "safety", "dangerous"]
@@ -73,6 +133,11 @@ def explain_evidence(evidence: dict) -> str:
 
 
 def build_ui(evidence: dict, explanation: str) -> dict:
+    """
+    Agent 4: select which fixed UI components apply and populate them with
+    real values from the evidence. Never invents component types outside the
+    fixed registry (a hard contract with the frontend).
+    """
     system = (
         "You select which UI components to show based on the evidence given, and "
         "populate them using only the real values in that evidence - never invent "
@@ -107,9 +172,6 @@ def build_ui(evidence: dict, explanation: str) -> dict:
         print(f"[DEBUG] build_ui attempt {attempt + 1} raw response: {raw[:800]}")
         try:
             parsed = json.loads(raw)
-            # Extra safety: catch the case where the model still returns an
-            # empty evidence-panel despite the instruction, and patch it
-            # ourselves rather than trusting the model got it right.
             for component in parsed.get("components", []):
                 if component.get("type") == "evidence-panel" and not component.get("data"):
                     component["data"] = evidence

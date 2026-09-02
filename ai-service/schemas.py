@@ -36,10 +36,16 @@ class Location(BaseModel):
     lon: float
 
 
+class HistoryEntry(BaseModel):
+    role: str  # "user" or "assistant"
+    content: str
+
+
 class AgentRequest(BaseModel):
     query: str
     location: Location
     sessionId: Optional[str] = None
+    history: Optional[list[HistoryEntry]] = None
 
 
 class AgentResponse(BaseModel):

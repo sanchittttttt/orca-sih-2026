@@ -19,7 +19,13 @@ def health():
 @app.post("/ai/agent/run", response_model=AgentResponse)
 def agent_run(request: AgentRequest):
     try:
-        result = run_agent(request.query, request.location.lat, request.location.lon)
+        history = [h.model_dump() for h in request.history] if request.history else None
+        result = run_agent(
+            request.query,
+            request.location.lat,
+            request.location.lon,
+            history=history,
+        )
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
